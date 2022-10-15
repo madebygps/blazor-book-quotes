@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace BlazorApp.Shared
 {
-    internal class Author
+    public class Author
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }

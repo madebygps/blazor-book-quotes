@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace BlazorApp.Shared
 {
-    internal class Book
+    public class Book
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
@@ -14,7 +14,7 @@ namespace BlazorApp.Shared
         [JsonPropertyName("title")]
         public string Title { get; set; }
 
-        [JsonPropertyName("author_id")]
+        [JsonPropertyName("authorId")]
         public string AuthorId { get; set; }
     }
 }

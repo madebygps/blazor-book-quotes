@@ -5,18 +5,18 @@ using System.Text.Json.Serialization;
 
 namespace BlazorApp.Shared
 {
-    internal class Quote
+    public class Quote
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("author_id")]
+        [JsonPropertyName("authorId")]
         public string AuthorId { get; set; }
 
         [JsonPropertyName("body")]
         public string Body { get; set; }
 
-        [JsonPropertyName("book_id")]
+        [JsonPropertyName("bookId")]
         public string BookId { get; set; }
 
 
