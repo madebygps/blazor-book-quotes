@@ -10,7 +10,7 @@ using BlazorApp.Shared;
 namespace ApiIsolated
 {
     public class QuotesRepository
-        {
+    {
 
         private readonly Container _quotesCollection;
         private readonly Container _booksCollection;
@@ -47,16 +47,18 @@ namespace ApiIsolated
             var response = await _quotesCollection.ReadItemAsync<Quote>(quoteId, new PartitionKey(quoteId));
             return response?.Resource;
         }
+
+        public async Task<Author> GetAuthorAsync(string authorId)
+        {
+            var response = await _authorsCollection.ReadItemAsync<Author>(authorId, new PartitionKey(authorId));
+            return response?.Resource;
+        }
         public async Task<Book?> GetBookAsync(string bookId)
         {
             var response = await _booksCollection.ReadItemAsync<Book>(bookId, new PartitionKey(bookId));
             return response?.Resource;
         }
-        public async Task<Author?> GetAuthorAsync(string authorId)
-        {
-            var response = await _authorsCollection.ReadItemAsync<Author>(authorId, new PartitionKey(authorId));
-            return response?.Resource;
-        }
+    
 
         public async Task DeleteQuoteAsync(string quoteId)
         {
@@ -74,9 +76,17 @@ namespace ApiIsolated
             await _quotesCollection.ReplaceItemAsync(existingQuote, existingQuote.Id, new PartitionKey(existingQuote.Id));
         }
 
+        public async Task<IEnumerable<Author>> GetBookAuthors(string authorId)
+        {
+            return await ToListAsync(
+                _authorsCollection.GetItemLinqQueryable<Author>().Where(i => i.Id == authorId));
+        }
+
+    
+
         private async Task<List<T>> ToListAsync<T>(IQueryable<T> queryable)
         {
-            
+
 
             using FeedIterator<T> iterator = queryable.ToFeedIterator();
             var items = new List<T>();
@@ -91,8 +101,6 @@ namespace ApiIsolated
 
             return items;
         }
-
-
 
     }
 }

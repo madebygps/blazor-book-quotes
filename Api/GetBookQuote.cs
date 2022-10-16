@@ -57,11 +57,14 @@ namespace ApiIsolated
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            var quotes = await _repository.GetBooksAsync();
-            response.WriteString(JsonSerializer.Serialize(quotes));
+            var books = await _repository.GetBooksAsync();
+            
+            response.WriteString(JsonSerializer.Serialize(books));
             return response;
 
         }
+
+        
 
         [Function("GetAuthors")]
         public async Task<HttpResponseData> GetAuthors(
