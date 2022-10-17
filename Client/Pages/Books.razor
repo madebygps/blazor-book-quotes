@@ -2,7 +2,7 @@
 @using BlazorApp.Shared 
 @inject HttpClient Http
 
-<h1>books</h1>
+
 
 @if (books == null)
 {
@@ -10,24 +10,28 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                
-            </tr>
-        </thead>
-        <tbody>
+    <MudContainer Class="mt-16">
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Books</MudText>
+        <MudGrid Class="mt-8">
             @foreach (var book in books)
             {
-                <tr>
-                    <td>@book.Title</td>
-                    <td>@book.AuthorName</td>
-                </tr>
+                <MudItem xs="12" sm="6" md="4">
+
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText>@book.AuthorName</MudText>
+                           
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Quotes by author</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+
+                </MudItem>
             }
-        </tbody>
-    </table>
+
+        </MudGrid>
+    </MudContainer>
 }
 
 @code {

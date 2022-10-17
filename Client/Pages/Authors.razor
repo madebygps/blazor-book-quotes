@@ -1,0 +1,46 @@
+﻿@page "/authors"
+@using BlazorApp.Shared 
+@inject HttpClient Http
+
+<h1>Authors</h1>
+
+@if (authors == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+               
+                <th>Author</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var author in authors)
+            {
+                <tr>
+                    <td>@author.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Author[] authors = new Author[]{};
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            authors = await Http.GetFromJsonAsync<Author[]>("/api/GetAuthors") ?? new Author[]{};
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+}

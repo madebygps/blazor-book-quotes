@@ -1,5 +1,5 @@
 ﻿@page "/quotes"
-@using BlazorApp.Shared 
+@using BlazorApp.Shared
 @inject HttpClient Http
 
 @if (quotes == null)
@@ -8,59 +8,53 @@
 }
 else
 {
-
-<MudContainer Class="mt-16">
-    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Pricing</MudText>
-    <MudText Align="Align.Center">Some long pricing text should go here maybe? who knows what text you would want here, i guess i cant fill it in for you.</MudText>
-    <MudGrid Class="mt-8">
-        @foreach (var quote in quotes)
-            {
-                        <MudItem xs="12" sm="6" md="4">
-                <MudCard Elevation="25" Class="rounded-lg pb-4">
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.h5" Align="Align.Center">@quote.AuthorName</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                    <MudCardContent>
-                        <div class="d-flex justify-center">
-                            <MudText Typo="Typo.h4">@quote.BookName</MudText>
-                        </div>
-                        <MudList Class="mx-auto mt-4" Style="width:300px;">
-                            <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
-                                @quote.Content
-                            </MudListItem>
-                            
-                        </MudList>
-                    </MudCardContent>
-                    <MudCardActions Class="d-flex justify-center">
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Start Now</MudButton>
-                    </MudCardActions>
-                </MudCard>
-            </MudItem>   
-            }       
-
-    </MudGrid>
-</MudContainer>
+    
+        <MudContainer Class="mt-16">
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Quotes</MudText>
+         <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" @bind-Value:event="TextChanged" Immediate= "true"></MudTextField>
+       
+   
+        <MudGrid Class="mt-8">
+            @foreach (var item in searchResults)
+    {
+                <MudItem xs="12" sm="6" md="4">
 
 
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText>@item.AuthorName</MudText>
+                            <MudText Typo="Typo.body2">@item.Content</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">More by author</MudButton>
+                        </MudCardActions>
+                    </MudCard>
 
+                </MudItem>
+            }
 
+        </MudGrid>
+    </MudContainer>
+    
 }
 
-
 @code {
-    private Quote[] quotes = new Quote[]{};
+    private Quote[] quotes = new Quote[] { };
+    private string searchTerm { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            quotes = await Http.GetFromJsonAsync<Quote[]>("/api/GetQuotes") ?? new Quote[]{};
+            quotes = await Http.GetFromJsonAsync<Quote[]>("/api/GetQuotes") ?? new Quote[] { };
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
     }
+    private IEnumerable<Quote> searchResults =>
+        quotes.Where(p => string.IsNullOrEmpty(searchTerm)
+        || p.Content.ToLower().Contains(searchTerm.ToLower())
+    );  
 }
