@@ -40,12 +40,7 @@ namespace ApiIsolated
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             var quote = await _repository.GetQuoteAsync(quoteId);
-            var author = await _repository.GetAuthorAsync(quote.AuthorId);
-            var book = await _repository.GetBookAsync(quote.BookId);
-
-            BookQuote bookQuote = new(author, quote, book);
-
-            response.WriteString(JsonSerializer.Serialize(bookQuote));
+            response.WriteString(JsonSerializer.Serialize(quote));
             return response;
 
         }
@@ -63,9 +58,7 @@ namespace ApiIsolated
             return response;
 
         }
-
         
-
         [Function("GetAuthors")]
         public async Task<HttpResponseData> GetAuthors(
             [HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)

@@ -19,7 +19,14 @@ class program
                         {
                             services.AddSingleton(sp =>
                             {
-                                return new CosmosClient(Environment.GetEnvironmentVariable("AZURE_COSMOS_ENDPOINT"), new CosmosClientOptions());
+
+                                return new CosmosClient(Environment.GetEnvironmentVariable("AZURE_COSMOS_ENDPOINT"), new CosmosClientOptions
+                                {
+                                    SerializerOptions = new CosmosSerializationOptions
+                                    {
+                                        PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                                    }
+                                });
                             }
                             ); services.AddSingleton<QuotesRepository>();
                         })

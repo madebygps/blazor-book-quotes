@@ -13,27 +13,28 @@ namespace ApiIsolated
     {
 
         private readonly Container _quotesCollection;
-        private readonly Container _booksCollection;
         private readonly Container _authorsCollection;
+
+        private readonly CosmosClient _client;
 
         public QuotesRepository(CosmosClient client, IConfiguration configuration)
         {
             var database = client.GetDatabase(configuration["AZURE_COSMOS_DATABASE_NAME"]);
-            _quotesCollection = database.GetContainer("quote");
-            _booksCollection = database.GetContainer("book");
-            _authorsCollection = database.GetContainer("author");
+            _quotesCollection = database.GetContainer("bookquotes");
+            _authorsCollection = database.GetContainer("authors");
+        
         }
 
         public async Task<IEnumerable<Quote>> GetQuotesAsync()
         {
             return await ToListAsync(
-                _quotesCollection.GetItemLinqQueryable<Quote>());
+            _quotesCollection.GetItemLinqQueryable<Quote>().Where(i => i.Type == "quote"));
         }
 
         public async Task<IEnumerable<Book>> GetBooksAsync()
         {
             return await ToListAsync(
-                _booksCollection.GetItemLinqQueryable<Book>());
+            _quotesCollection.GetItemLinqQueryable<Book>().Where(i => i.Type == "book"));
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
@@ -47,6 +48,7 @@ namespace ApiIsolated
             var response = await _quotesCollection.ReadItemAsync<Quote>(quoteId, new PartitionKey(quoteId));
             return response?.Resource;
         }
+       
 
         public async Task<Author> GetAuthorAsync(string authorId)
         {
@@ -55,7 +57,7 @@ namespace ApiIsolated
         }
         public async Task<Book?> GetBookAsync(string bookId)
         {
-            var response = await _booksCollection.ReadItemAsync<Book>(bookId, new PartitionKey(bookId));
+            var response = await _quotesCollection.ReadItemAsync<Book>(bookId, new PartitionKey(bookId));
             return response?.Resource;
         }
     

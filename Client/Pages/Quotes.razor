@@ -14,6 +14,8 @@ else
         <thead>
             <tr>
                 <th>Quote</th>
+                <th>Author</th>
+                <th>Book</th>
                 
             </tr>
         </thead>
@@ -21,7 +23,9 @@ else
             @foreach (var quote in quotes)
             {
                 <tr>
-                    <td>@quote.Body</td>
+                    <td>@quote.Content</td>
+                    <td>@quote.AuthorName</td>
+                    <td>@quote.BookName</td>
 
                 </tr>
             }

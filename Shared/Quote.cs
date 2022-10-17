@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
-
-namespace BlazorApp.Shared
+﻿namespace BlazorApp.Shared
 {
     public class Quote
     {
-        [JsonPropertyName("id")]
         public string Id { get; set; }
-
-        [JsonPropertyName("authorId")]
+        public string QuoteId { get; set; }
         public string AuthorId { get; set; }
-
-        [JsonPropertyName("body")]
-        public string Body { get; set; }
-
-        [JsonPropertyName("bookId")]
+        public string AuthorName { get; set; }
+        public string Content { get; set; }
         public string BookId { get; set; }
-
+        public string BookName { get; set; }
+        public string Type { get; set; }
 
     }
 }
