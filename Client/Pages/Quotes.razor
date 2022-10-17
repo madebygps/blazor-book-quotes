@@ -4,8 +4,10 @@
 
 @if (quotes == null)
 {
+    <MudContainer Class="mt-16">
     
-    <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Size="Size.Large" />
+    <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
+    </MudContainer>
 }
 else
 {
@@ -58,14 +60,16 @@ else
 }
 
 @code {
-    private Quote[] quotes = new Quote[] { };
+    private Quote[] quotes;
     private string searchTerm { get; set; }
+   
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             quotes = await Http.GetFromJsonAsync<Quote[]>("/api/GetQuotes") ?? new Quote[] { };
+            
         }
         catch (Exception ex)
         {
@@ -74,6 +78,9 @@ else
     }
     private IEnumerable<Quote> searchResults =>
         quotes.Where(p => string.IsNullOrEmpty(searchTerm)
-        || p.Content.ToLower().Contains(searchTerm.ToLower())
+        || p.Content.ToLower().Contains(searchTerm.ToLower()) || p.AuthorName.ToLower().Contains(searchTerm.ToLower()) || 
+        p.BookName.ToLower().Contains(searchTerm.ToLower()) || p.Tags.Contains(searchTerm.ToLower())
     );
+
+   
 }
