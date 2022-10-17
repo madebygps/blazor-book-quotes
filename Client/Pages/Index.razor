@@ -1,50 +1,6 @@
 ﻿@page "/"
-
-@using BlazorApp.Shared 
 @inject HttpClient Http
 
-<h1>Random Quote</h1>
 
-@if (quote == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Quote</th>
-                <th>Author</th>
-                <th>Book</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            
-                <tr>
-                    <td>@quote.Content</td>
-                    <td>@quote.AuthorName</td>
-                    <td>@quote.BookName</td>
+<Quotes/>
 
-                </tr>
-            
-        </tbody>
-    </table>
-}
-
-@code {
-    private Quote quote = new Quote{};
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            quote = await Http.GetFromJsonAsync<Quote>("/api/GetRandomQuote") ?? new Quote{};
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
-    }
-}

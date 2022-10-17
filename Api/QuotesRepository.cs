@@ -84,12 +84,8 @@ namespace ApiIsolated
                 _authorsCollection.GetItemLinqQueryable<Author>().Where(i => i.Id == authorId));
         }
 
-    
-
         private async Task<List<T>> ToListAsync<T>(IQueryable<T> queryable)
         {
-
-
             using FeedIterator<T> iterator = queryable.ToFeedIterator();
             var items = new List<T>();
 
@@ -100,9 +96,7 @@ namespace ApiIsolated
                     items.Add(item);
                 }
             }
-
             return items;
         }
-
     }
 }

@@ -2,36 +2,52 @@
 @using BlazorApp.Shared 
 @inject HttpClient Http
 
-<h1>Quotes</h1>
-
 @if (quotes == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Quote</th>
-                <th>Author</th>
-                <th>Book</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var quote in quotes)
-            {
-                <tr>
-                    <td>@quote.Content</td>
-                    <td>@quote.AuthorName</td>
-                    <td>@quote.BookName</td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+<MudContainer Class="mt-16">
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Pricing</MudText>
+    <MudText Align="Align.Center">Some long pricing text should go here maybe? who knows what text you would want here, i guess i cant fill it in for you.</MudText>
+    <MudGrid Class="mt-8">
+        @foreach (var quote in quotes)
+            {
+                        <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="25" Class="rounded-lg pb-4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Align="Align.Center">@quote.AuthorName</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <div class="d-flex justify-center">
+                            <MudText Typo="Typo.h4">@quote.BookName</MudText>
+                        </div>
+                        <MudList Class="mx-auto mt-4" Style="width:300px;">
+                            <MudListItem Icon="@Icons.Material.Filled.LiveHelp">
+                                @quote.Content
+                            </MudListItem>
+                            
+                        </MudList>
+                    </MudCardContent>
+                    <MudCardActions Class="d-flex justify-center">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Style="width:50%;">Start Now</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>   
+            }       
+
+    </MudGrid>
+</MudContainer>
+
+
+
+
 }
+
 
 @code {
     private Quote[] quotes = new Quote[]{};
