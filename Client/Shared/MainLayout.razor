@@ -1,17 +1,18 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme"/>
 
+
+
+<MudThemeProvider />
 
 <MudLayout>
-    <MudAppBar Color="Color.Primary" Fixed="false">
+    <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+
+        <MudText Typo="Typo.h5" Class="ml-4">GPS Reads</MudText>
         <MudSpacer />
-        <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Secondary" Class="ma-4" T="bool" Label="Light/Dark"/>
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h5" Class="mt-1">Application</MudText>
-        </MudDrawerHeader>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
@@ -20,13 +21,9 @@
 </MudLayout>
 @code {
     bool _drawerOpen = false;
-    private MudTheme _theme = new();
-    private bool _isDarkMode;
-    private string searchTerm { get; set; } 
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
 }
-

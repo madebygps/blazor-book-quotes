@@ -4,14 +4,14 @@
 
 @if (quotes == null)
 {
-    <p><em>Loading...</em></p>
+    
+    <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Size="Size.Large" />
 }
 else
 {
 
     <MudContainer Class="mt-16">
-        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">GPS's favorite Quotes</MudText>
-        <MudText Typo="Typo.body1" Align="Align.Center" GutterBottom="true">Quotes that have resonanted with me from books I've read.</MudText>
+       
         <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" @bind-Value:event="TextChanged" Immediate="true"></MudTextField>
 
 
