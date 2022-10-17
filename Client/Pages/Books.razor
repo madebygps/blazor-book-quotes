@@ -1,8 +1,6 @@
 @page "/books"
-@using BlazorApp.Shared 
+@using BlazorApp.Shared
 @inject HttpClient Http
-
-
 
 @if (books == null)
 {
@@ -18,12 +16,15 @@ else
                 <MudItem xs="12" sm="6" md="4">
 
                     <MudCard>
+                        <MudCardMedia Image="@book.PhotoUrl" Height="200" />
                         <MudCardContent>
-                            <MudText>@book.AuthorName</MudText>
-                           
+                            <MudText Typo="Typo.h5">@book.Title</MudText>
+                            <MudText Typo="Typo.body2">@book.AuthorName</MudText>
+                            <MudText Typo="Typo.body2">@book.Description</MudText>
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary">Quotes by author</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Quotes by book</MudButton>
+                         
                         </MudCardActions>
                     </MudCard>
 
@@ -35,13 +36,13 @@ else
 }
 
 @code {
-    private Book[] books = new Book[]{};
+    private Book[] books = new Book[] { };
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            books = await Http.GetFromJsonAsync<Book[]>("/api/GetBooks") ?? new Book[]{};
+            books = await Http.GetFromJsonAsync<Book[]>("/api/GetBooks") ?? new Book[] { };
         }
         catch (Exception ex)
         {

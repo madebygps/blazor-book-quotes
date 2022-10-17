@@ -10,6 +10,8 @@
         public string BookId { get; set; }
         public string BookName { get; set; }
         public string Type { get; set; }
+        public string [] Tags { get; set; }
+        public string AuthorPhotoUrl { get; set; }
 
     }
 }

@@ -2,31 +2,37 @@
 @using BlazorApp.Shared 
 @inject HttpClient Http
 
-<h1>Authors</h1>
-
 @if (authors == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-               
-                <th>Author</th>
-                
-            </tr>
-        </thead>
-        <tbody>
+    <MudContainer Class="mt-16">
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Authors</MudText>
+        <MudGrid Class="mt-8">
             @foreach (var author in authors)
             {
-                <tr>
-                    <td>@author.Name</td>
-                </tr>
+                
+                <MudItem xs="12" sm="6" md="4">
+
+                    <MudCard>
+                        <MudCardMedia Image="@author.PhotoUrl" Height="200" />
+                        <MudCardContent>
+                            <MudText Typo="Typo.h5">@author.Name</MudText>           
+                           
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Quotes by Author</MudButton>
+                         
+                        </MudCardActions>
+                    </MudCard>
+
+                </MudItem>
             }
-        </tbody>
-    </table>
+
+        </MudGrid>
+    </MudContainer>
 }
 
 @code {

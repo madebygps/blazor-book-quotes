@@ -8,22 +8,40 @@
 }
 else
 {
-    
-        <MudContainer Class="mt-16">
+
+    <MudContainer Class="mt-16">
         <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Quotes</MudText>
-         <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" @bind-Value:event="TextChanged" Immediate= "true"></MudTextField>
-       
-   
+        <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" @bind-Value:event="TextChanged" Immediate="true"></MudTextField>
+
+
         <MudGrid Class="mt-8">
             @foreach (var item in searchResults)
-    {
+            {
                 <MudItem xs="12" sm="6" md="4">
 
 
                     <MudCard>
                         <MudCardContent>
-                            <MudText>@item.AuthorName</MudText>
-                            <MudText Typo="Typo.body2">@item.Content</MudText>
+
+                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center">"@item.Content"</MudText>
+
+
+                            <MudStack Row="true">
+                                <MudAvatar Image="@item.AuthorPhotoUrl" Size="Size.Large" />
+                                <MudStack Justify="Justify.Center" Spacing="0">
+                                    <MudText Typo="Typo.subtitle2">@item.AuthorName</MudText>
+                                    <MudText Typo="Typo.body2">@item.BookName</MudText>
+                                </MudStack>
+                            </MudStack>
+
+
+
+                            <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+                            @foreach (var tag in item.Tags)
+                            {
+                                <MudChip Color="Color.Default">@tag</MudChip>
+                            }
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton Variant="Variant.Text" Color="Color.Primary">More by author</MudButton>
@@ -35,7 +53,7 @@ else
 
         </MudGrid>
     </MudContainer>
-    
+
 }
 
 @code {
@@ -56,5 +74,5 @@ else
     private IEnumerable<Quote> searchResults =>
         quotes.Where(p => string.IsNullOrEmpty(searchTerm)
         || p.Content.ToLower().Contains(searchTerm.ToLower())
-    );  
+    );
 }
