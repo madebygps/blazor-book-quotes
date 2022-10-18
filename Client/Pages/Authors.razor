@@ -36,13 +36,15 @@ else
 }
 
 @code {
-    private Author[] authors = new Author[]{};
+    private Quote[] quotes = new Quote[]{};
+    private IEnumerable<Author> authors;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            authors = await Http.GetFromJsonAsync<Author[]>("/api/GetAuthors") ?? new Author[]{};
+            quotes = await Http.GetFromJsonAsync<Quote[]>("/api/GetQuotes") ?? new Quote[] { };
+            authors = quotes.Select(q => q.Author).DistinctBy(a => a.Name);
         }
         catch (Exception ex)
         {

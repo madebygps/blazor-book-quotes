@@ -20,18 +20,18 @@ namespace ApiIsolated
         public QuotesRepository(CosmosClient client, IConfiguration configuration)
         {
             var database = client.GetDatabase(configuration["AZURE_COSMOS_DATABASE_NAME"]);
-            _quotesCollection = database.GetContainer("bookquotes");
-            _authorsCollection = database.GetContainer("authors");
+            _quotesCollection = database.GetContainer("quotes");
+           // _authorsCollection = database.GetContainer("authors");
         
         }
 
         public async Task<IEnumerable<Quote>> GetQuotesAsync()
         {
             return await ToListAsync(
-            _quotesCollection.GetItemLinqQueryable<Quote>().Where(i => i.Type == "quote"));
+            _quotesCollection.GetItemLinqQueryable<Quote>());
         }
 
-        public async Task<IEnumerable<Book>> GetBooksAsync()
+        /*public async Task<IEnumerable<Book>> GetBooksAsync()
         {
             return await ToListAsync(
             _quotesCollection.GetItemLinqQueryable<Book>().Where(i => i.Type == "book"));
@@ -41,7 +41,7 @@ namespace ApiIsolated
         {
             return await ToListAsync(
                 _authorsCollection.GetItemLinqQueryable<Author>());
-        }
+        }*/
 
         public async Task<Quote?> GetQuoteAsync(string quoteId)
         {
@@ -78,11 +78,12 @@ namespace ApiIsolated
             await _quotesCollection.ReplaceItemAsync(existingQuote, existingQuote.Id, new PartitionKey(existingQuote.Id));
         }
 
-        public async Task<IEnumerable<Author>> GetBookAuthors(string authorId)
+       /* public async Task<IEnumerable<Author>> GetBookAuthors(string authorId)
         {
             return await ToListAsync(
                 _authorsCollection.GetItemLinqQueryable<Author>().Where(i => i.Id == authorId));
         }
+       */
 
         private async Task<List<T>> ToListAsync<T>(IQueryable<T> queryable)
         {

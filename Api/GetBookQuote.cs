@@ -45,7 +45,7 @@ namespace ApiIsolated
 
         }
 
-        [Function("GetBooks")]
+        /*[Function("GetBooks")]
         public async Task<HttpResponseData> GetBooks(
             [HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
@@ -70,6 +70,6 @@ namespace ApiIsolated
             response.WriteString(JsonSerializer.Serialize(quotes));
             return response;
 
-        }
+        }*/
     }
 }

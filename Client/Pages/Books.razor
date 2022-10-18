@@ -16,15 +16,14 @@ else
                 <MudItem xs="12" sm="6" md="4">
 
                     <MudCard>
-                        <MudCardMedia Image="@book.PhotoUrl" Height="200" />
+                        <MudCardMedia Image="@book.CoverUrl" Height="200" />
                         <MudCardContent>
                             <MudText Typo="Typo.h5">@book.Title</MudText>
-                            <MudText Typo="Typo.body2">@book.AuthorName</MudText>
-                            <MudText Typo="Typo.body2">@book.Description</MudText>
+                            <MudText Typo="Typo.body2">@book.Author</MudText>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton Variant="Variant.Text" Color="Color.Primary">Quotes by book</MudButton>
-                         
+
                         </MudCardActions>
                     </MudCard>
 
@@ -36,13 +35,18 @@ else
 }
 
 @code {
-    private Book[] books = new Book[] { };
+
+    private Quote[] quotes = new Quote[] { };
+    private IEnumerable<Book> books;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            books = await Http.GetFromJsonAsync<Book[]>("/api/GetBooks") ?? new Book[] { };
+            quotes = await Http.GetFromJsonAsync<Quote[]>("/api/GetQuotes") ?? new Quote[] { };
+            books = quotes.Select(q => q.Book).DistinctBy(b => b.Title);
+
+
         }
         catch (Exception ex)
         {

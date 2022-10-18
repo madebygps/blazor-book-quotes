@@ -30,10 +30,10 @@ else
 
 
                             <MudStack Row="true">
-                                <MudAvatar Image="@item.AuthorPhotoUrl" Size="Size.Large" />
+                                <MudAvatar Image="@item.Author.PhotoUrl" Size="Size.Large" />
                                 <MudStack Justify="Justify.Center" Spacing="0">
-                                    <MudText Typo="Typo.subtitle2">@item.AuthorName</MudText>
-                                    <MudText Typo="Typo.body2">@item.BookName</MudText>
+                                    <MudText Typo="Typo.subtitle2">@item.Author.Name</MudText>
+                                    <MudText Typo="Typo.body2">@item.Book.Title</MudText>
                                 </MudStack>
                             </MudStack>
 
@@ -78,8 +78,8 @@ else
     }
     private IEnumerable<Quote> searchResults =>
         quotes.Where(p => string.IsNullOrEmpty(searchTerm)
-        || p.Content.ToLower().Contains(searchTerm.ToLower()) || p.AuthorName.ToLower().Contains(searchTerm.ToLower()) || 
-        p.BookName.ToLower().Contains(searchTerm.ToLower()) || p.Tags.Contains(searchTerm.ToLower())
+        || p.Content.ToLower().Contains(searchTerm.ToLower()) || p.Author.Name.ToLower().Contains(searchTerm.ToLower()) || 
+        p.Book.Title.ToLower().Contains(searchTerm.ToLower()) || p.Tags.Contains(searchTerm.ToLower())
     );
 
    

@@ -1,17 +1,14 @@
-﻿namespace BlazorApp.Shared
+﻿using System.Collections.Generic;
+
+namespace BlazorApp.Shared
 {
     public class Quote
     {
         public string Id { get; set; }
-        public string QuoteId { get; set; }
-        public string AuthorId { get; set; }
-        public string AuthorName { get; set; }
+        public Author Author { get; set; }
         public string Content { get; set; }
-        public string BookId { get; set; }
-        public string BookName { get; set; }
-        public string Type { get; set; }
-        public string [] Tags { get; set; }
-        public string AuthorPhotoUrl { get; set; }
+        public Book Book { get; set; }
+        public List<string>Tags { get; set; }
 
     }
 }
