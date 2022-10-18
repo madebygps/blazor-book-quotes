@@ -12,25 +12,19 @@ else
         <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Authors</MudText>
         <MudGrid Class="mt-8">
             @foreach (var author in authors)
-            {
-                
+            {   
                 <MudItem xs="12" sm="6" md="4">
-
                     <MudCard>
                         <MudCardMedia Image="@author.PhotoUrl" Height="200" />
                         <MudCardContent>
                             <MudText Typo="Typo.h5">@author.Name</MudText>           
-                           
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton Variant="Variant.Text" Color="Color.Primary">Quotes by Author</MudButton>
-                         
                         </MudCardActions>
                     </MudCard>
-
                 </MudItem>
             }
-
         </MudGrid>
     </MudContainer>
 }

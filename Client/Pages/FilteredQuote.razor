@@ -1,8 +1,8 @@
-﻿@page "/quotes"
+﻿@page "/quotesby/{searchby}/{slug}"
 @using BlazorApp.Shared
 @inject HttpClient Http
 
-@if (quotes == null)
+@if (authorQuotes == null)
 {
     <MudContainer Class="mt-16">
     
@@ -13,12 +13,8 @@ else
 {
 
     <MudContainer Class="mt-16">
-       
-        <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" @bind-Value:event="TextChanged" Immediate="true"></MudTextField>
-
-
         <MudGrid Class="mt-8">
-            @foreach (var item in searchResults)
+            @foreach (var item in authorQuotes)
             {
                 <MudItem xs="12" sm="6" md="4">
 
@@ -43,12 +39,11 @@ else
 
                             @foreach (var tag in item.Tags)
                             {
-                                <MudChip Color="Color.Default" Href=@($"quotesby/tag/{tag}")>@tag</MudChip>
+                                <MudChip Color="Color.Default">@tag</MudChip>
                             }
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary" Href=@($"quotesby/author/{item.Author.Name}")>More by author</MudButton>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary" Href=@($"quotesby/book/{item.Book.Title}")>More from book</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">More by author</MudButton>
                         </MudCardActions>
                     </MudCard>
 
@@ -61,27 +56,44 @@ else
 }
 
 @code {
-    private Quote[] quotes;
-    private string searchTerm { get; set; }
-   
+
+    [Parameter] public string Slug { get; set; }
+    [Parameter] public string SearchBy { get; set; }
+    //protected Search.Model Model { get; set; } = new Search.Model();
+
+    private Quote[] quotes = new Quote[]{};
+    private IEnumerable<Quote> authorQuotes;
+
 
     protected override async Task OnInitializedAsync()
     {
+        //var http = HttpClientFactory.CreateClient("ASimpleBlogStarter.AnonymousAPI");
+        // Model = await http.GetFromJsonAsync<Search.Model>($"api/post/search?slug={Slug}");
         try
         {
             quotes = await Http.GetFromJsonAsync<Quote[]>("/api/GetQuotes") ?? new Quote[] { };
-            
+
+            if (SearchBy.Equals("author"))
+            {  
+                authorQuotes = quotes.Where(q => q.Author.Name.Contains(Slug));
+
+            } else if (SearchBy.Equals("book"))
+            {   
+                 authorQuotes = quotes.Where(q => q.Book.Title.Contains(Slug));
+            } else if (SearchBy.Equals("tag"))
+            {   
+                 authorQuotes = quotes.Where(q => q.Tags.Contains(Slug));
+            }
+
+           
+            //authorsQ = quotes.Select(q => q.Author).DistinctBy(a => a.Name);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
     }
-    private IEnumerable<Quote> searchResults =>
-        quotes.Where(p => string.IsNullOrEmpty(searchTerm)
-        || p.Content.ToLower().Contains(searchTerm.ToLower()) || p.Author.Name.ToLower().Contains(searchTerm.ToLower()) || 
-        p.Book.Title.ToLower().Contains(searchTerm.ToLower()) || p.Tags.Contains(searchTerm.ToLower())
-    );
 
-   
+  
+
 }
